@@ -32,7 +32,18 @@
                         <label class="label">パスワード（確認用）</label>
                         <input type="password" class="input" id="passwordForCheck" name="passwordForCheck" required>
                         <input type="submit" class="button primary" value="作成する" >
+                        
+                        <c:if test="${!empty PasswordError}">
+                        	<div class="error">${PasswordError}</div>
+                        </c:if>
+                        
+                        <c:if test="${!empty errorMessage}">
+                        	<div class="error">${errorMessage}</div>
+                        </c:if>
+                        
+                    
                     </form>
+                    
                 </div>
                 <div class="authorization_navi">
                     <label class="authorization_text">すでにアカウントをお持ちですか？</label>
