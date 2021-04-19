@@ -52,7 +52,6 @@
                                 <li class="book_author">${bookInfo.author}</li>
                                 <li class="book_publisher">${bookInfo.publisher}</li>
                                 <li class="book_publishDate">${bookInfo.publishDate}</li>
-                                <li class="book_thumbnail">${bookInfo.thumbnail}</li>
                             </ul>
                         </div>
                     </c:forEach>
