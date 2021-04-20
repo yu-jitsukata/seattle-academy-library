@@ -35,6 +35,10 @@
                          <c:if test="${!empty errorMessage}">
 							 <div class="error">${errorMessage}</div>
 						</c:if>
+						
+						<c:if test="${!empty AccountError}">
+							 <div class="error">${AccountError}</div>
+						</c:if>
 
                     </form>
                 </div>
