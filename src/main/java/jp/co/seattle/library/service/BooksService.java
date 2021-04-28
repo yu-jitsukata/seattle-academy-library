@@ -52,11 +52,13 @@ public class BooksService {
         String sql = "SELECT * FROM books where id ="
                 + bookId;
 
+        //dtoのBookDetailsInfoとrowMapperのBookDetailsInfoRowMapperを紐づけている
         BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
-
         return bookDetailsInfo;
 
     }
+    //一番大きいid（＝一番最近追加した本のid）をBDから取得
+    //取得した結果を指定したクラスで返す
 
     public int getBookId() {
         String sql = "SELECT MAX(id) FROM books";
@@ -89,6 +91,27 @@ public class BooksService {
         jdbcTemplate.update(sql);
     }
 
+
+    /**
+     * 書籍を更新する
+     *
+     * @param bookInfo 書籍情報
+     */
+    public void updateBook(BookDetailsInfo bookInfo) {
+
+        String sql = "UPDATE books SET "
+                + "title='" + bookInfo.getTitle() + "',"
+                + "author='" + bookInfo.getAuthor() + "',"
+                + "publisher='" + bookInfo.getPublisher() + "',"
+                + "publish_date='" + bookInfo.getPublishDate() + "',"
+                + "isbn='" + bookInfo.getIsbn() + "',"
+                + "description='" + bookInfo.getDescription() + "',"
+                + "upd_date=" + "sysdate()"
+                + "WHERE id="
+                + bookInfo.getBookId() + ";";
+
+        jdbcTemplate.update(sql);
+    }
 
     /**
      * 書籍を削除する
