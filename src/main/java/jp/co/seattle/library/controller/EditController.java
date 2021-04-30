@@ -32,10 +32,10 @@ public class EditController {
     @Autowired
     private ThumbnailService thumbnailService;
 
-    // 入力された値を取得し、""に渡す
-    @RequestMapping(value = "/editBook", method = RequestMethod.POST) //value＝actionで指定したパラメータ
-    //RequestParamでname属性を取得
 
+    @RequestMapping(value = "/editBook", method = RequestMethod.POST) //value＝actionで指定したパラメータ
+
+    //RequestParamでname属性を取得
     public String update(@RequestParam("bookId") Integer bookId, Model model) {
 
         model.addAttribute("bookInfo", booksService.getBookInfo(bookId));
@@ -80,9 +80,6 @@ public class EditController {
         bookInfo.setPublisher(publisher);
         bookInfo.setPublishDate(publishDate);
         bookInfo.setIsbn(isbn);
-
-        // 書籍情報を更新する
-        booksService.updateBook(bookInfo);
 
         // クライアントのファイルシステムにある元のファイル名を設定する
         String thumbnail = file.getOriginalFilename();
@@ -132,7 +129,8 @@ public class EditController {
             return "editBook";
         }
 
-
+        // 書籍情報を更新する
+        booksService.updateBook(bookInfo);
 
         // TODO 更新した書籍の詳細情報を表示するように実装 //booksService.getBookInfoというメソッドの結果が"bookDetailsInfo"という箱の中に入る
         //(bookId)は６２行目で持ってきた引数
