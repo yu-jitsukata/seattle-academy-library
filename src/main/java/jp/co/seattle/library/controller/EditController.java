@@ -33,6 +33,12 @@ public class EditController {
     private ThumbnailService thumbnailService;
 
 
+    /**
+     * 編集画面に遷移
+     * @param bookId 編集したい本のID
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/editBook", method = RequestMethod.POST) //value＝actionで指定したパラメータ
 
     //RequestParamでname属性を取得
@@ -43,7 +49,7 @@ public class EditController {
     }
 
     /**
-     * 書籍情報を登録する
+     * 書籍情報を更新する
      * @param locale ロケール情報
      * @param title 書籍名
      * @param description 説明文
