@@ -316,3 +316,6 @@ hr.border_add {
 .bulk_form .caution p {
 	color: #fa8072;
 }
+.bulk_form .registComplete.errors {
+	color:red;
+}
