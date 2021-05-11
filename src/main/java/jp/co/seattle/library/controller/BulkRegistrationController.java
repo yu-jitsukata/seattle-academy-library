@@ -73,14 +73,13 @@ public class BulkRegistrationController {
 
         boolean flag = false;
 
-        try {
-            // データの読み書きを行う。連続したバイトとして読み込む。
-            InputStream InStream = multipartFile.getInputStream();
+        // データの読み書きを行う。連続したバイトとして読み込む。
+        try (InputStream InStream = multipartFile.getInputStream();
 
             Reader reader = new InputStreamReader(InStream);
 
             // ストリームをバッファする
-            BufferedReader buf = new BufferedReader(reader);
+                BufferedReader buf = new BufferedReader(reader);) {
 
             int number = 0;
 
@@ -116,14 +115,14 @@ public class BulkRegistrationController {
                     flag = true;
                 }
             }
-
             // エラーが一回でもなったら
             if (flag) {
                 //エラーだよ
                 model.addAttribute("errormessages", errorMessages);
                 return "bulkRegistration";
             }
-            buf.close();
+
+
 
             // 書籍を登録する
             for (int i = 0; i < list.size(); i++) {
