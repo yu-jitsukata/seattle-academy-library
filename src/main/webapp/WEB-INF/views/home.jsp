@@ -32,6 +32,9 @@
             <c:if test="${!empty resultMessage}">
                 <div class="error_msg">${resultMessage}</div>
             </c:if>
+            <c:if test="${!empty deleted}">
+                        <div class="error_msg">${deleted}</div>
+                    </c:if>
             <div>
                 <div class="booklist">
                     <c:forEach var="bookInfo" items="${bookList}">
