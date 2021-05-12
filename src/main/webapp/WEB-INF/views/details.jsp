@@ -42,6 +42,17 @@
                         </c:if> <input type="hidden" name="bookId" value="${bookDetailsInfo.bookId}">
                     </a>
                 </div>
+                <div>
+                   <c:if test="${!empty lending}">
+                        <div class="lending">${lending}</div>
+                    </c:if>
+                    <c:if test="${!empty Canlend}">
+                        <div class="Canlend">${Canlend}</div>
+                    </c:if>
+                    <c:if test="${!empty returned}">
+                        <div class="Canlend">${returned}</div>
+                    </c:if>
+                </div>
             </div>
             <div class="content_right">
                 <div>

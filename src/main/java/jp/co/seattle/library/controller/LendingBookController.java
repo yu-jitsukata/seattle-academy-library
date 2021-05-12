@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jp.co.seattle.library.service.BooksService;
 
 /**
- * 削除コントローラー
+ * 貸し出しコントローラー
  */
 @Controller //APIの入り口
-public class DeleteBookController {
+public class LendingBookController {
     final static Logger logger = LoggerFactory.getLogger(DeleteBookController.class);
 
     @Autowired
@@ -26,7 +26,7 @@ public class DeleteBookController {
 
 
     /**
-     * 対象書籍を削除する
+     * 対象書籍を貸し出し中にする
      *
      * @param locale ロケール情報
      * @param bookId 書籍ID
@@ -34,26 +34,29 @@ public class DeleteBookController {
      * @return 遷移先画面名
      */
     @Transactional
-    @RequestMapping(value = "/deleteBook", method = RequestMethod.POST)
-    public String deleteBook(
+    @RequestMapping(value = "/borrowBook", method = RequestMethod.POST)
+    public String lendingBook(
             Locale locale,
             @RequestParam("bookId") Integer bookId,
             Model model) {
         logger.info("Welcome delete! The client locale is {}.", locale);
-        
-        // 貸し出し可の状態である時削除
-        if (booksService.lendingBookCountCheck(bookId) == 0) {
-            booksService.deleteBook(bookId);
-            model.addAttribute("bookList", booksService.getBookList());
-            model.addAttribute("deleted", "削除完了");
-            return "home";
-            // そうでない場合は詳細画面に遷移
-        } else {
-            model.addAttribute("lending", booksService.getLendingBookInfo(bookId));
-            model.addAttribute("bookList", booksService.getBookList());
-            model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 
+        // 最新の本の貸し出し状況を取得=idが一回以上入ってるということになる
+        booksService.lendingBookCountCheck(bookId);
+
+        // 本の情報と、貸し出し状況をのせた詳細画面へ遷移
+        model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
+
+        // カウントして1以上が返ってきた場合は貸し出し中を表示
+        if (booksService.lendingBookCountCheck(bookId) == 1) {
+            model.addAttribute("lending", booksService.getLendingBookInfo(bookId));
             return "details";
+
+        } else {
+            booksService.lendingBook(bookId);
+            model.addAttribute("lending", booksService.getLendingBookInfo(bookId));
+            return "details";
+
         }
 
     }

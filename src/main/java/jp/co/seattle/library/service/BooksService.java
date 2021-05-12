@@ -40,6 +40,7 @@ public class BooksService {
         return getedBookList;
     }
 
+
     /**
      * 書籍IDに紐づく書籍詳細情報を取得する
      *
@@ -57,6 +58,24 @@ public class BooksService {
         return bookDetailsInfo;
 
     }
+
+    /**
+     * 書籍IDに紐づく書籍が貸し出し中であることを取得する
+     *
+     * @param bookId 書籍ID
+     * @return 書籍情報
+     */
+    public String getLendingBookInfo(int bookId) {
+
+        // JSPに渡すデータを設定する
+        String sql = "SELECT lending FROM lending where id ="
+                + bookId;
+        return jdbcTemplate.queryForObject(sql, String.class);
+
+    }
+
+
+
     //一番大きいid（＝一番最近追加した本のid）をBDから取得
     //取得した結果を指定したクラスで返す
 
@@ -65,9 +84,6 @@ public class BooksService {
         return jdbcTemplate.queryForObject(sql, Integer.class);
 
     }
-
-
-
 
     /**
      * 書籍を登録する
@@ -125,4 +141,36 @@ public class BooksService {
         jdbcTemplate.update(sql);
     }
 
+    /**
+     * 書籍貸し出し中に設定する
+     *
+     * @param bookId 書籍ID
+     */
+
+    public void lendingBook(int bookId) {
+        String sql = "INSERT INTO lending(id) values(" + bookId + ");";
+        jdbcTemplate.update(sql);
+    }
+
+    /**
+     * 書籍貸し出し中であるかチェックする
+     *
+     * @param bookId 書籍ID
+     */
+
+    public int lendingBookCountCheck(int bookId) {
+        String sql = "select count(id) from lending where id =" + bookId + ";";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
+    }
+
+    /**
+     * 書籍を返却する
+     *
+     * @param bookId 書籍ID
+     */
+
+    public void returnBook(int bookId) {
+        String sql = "DELETE FROM lending where id =" + bookId;
+        jdbcTemplate.update(sql);
+    }
 }
