@@ -50,7 +50,7 @@ public class DeleteBookController {
             // そうでない場合は詳細画面に遷移
         } else {
             model.addAttribute("lending", booksService.getLendingBookInfo(bookId));
-            model.addAttribute("bookList", booksService.getBookList());
+
             model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 
             return "details";
