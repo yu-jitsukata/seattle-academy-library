@@ -68,7 +68,7 @@ public class BooksService {
     public String getLendingBookInfo(int bookId) {
 
         // JSPに渡すデータを設定する
-        String sql = "SELECT lending FROM lending where id ="
+        String sql = "SELECT Lend_status FROM lending where BOOK_ID ="
                 + bookId;
         return jdbcTemplate.queryForObject(sql, String.class);
 
@@ -148,7 +148,7 @@ public class BooksService {
      */
 
     public void lendingBook(int bookId) {
-        String sql = "INSERT INTO lending(id) values(" + bookId + ");";
+        String sql = "INSERT INTO lending(BOOK_ID) values(" + bookId + ");";
         jdbcTemplate.update(sql);
     }
 
@@ -159,7 +159,7 @@ public class BooksService {
      */
 
     public int lendingBookCountCheck(int bookId) {
-        String sql = "select count(id) from lending where id =" + bookId + ";";
+        String sql = "select count(BOOK_ID) from lending where BOOK_ID =" + bookId + ";";
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
@@ -170,7 +170,7 @@ public class BooksService {
      */
 
     public void returnBook(int bookId) {
-        String sql = "DELETE FROM lending where id =" + bookId;
+        String sql = "DELETE FROM lending where BOOK_ID =" + bookId;
         jdbcTemplate.update(sql);
     }
 }
