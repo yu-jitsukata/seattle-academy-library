@@ -25,34 +25,33 @@
         </div>
     </header>
     <main>
-        <h1>Home</h1>
-        <a href="<%= request.getContextPath()%>/addBook" class="btn_add_book">書籍の追加</a>
-        <a href="<%= request.getContextPath()%>/bulkRegistration" class="btn_bulk_book">一括登録</a>
-        <a href="<%= request.getContextPath()%>/searchBook" class="btn_bulk_book">書籍の検索</a>
+        <h1>書籍検索</h1>
+        <div>
+            <form action="search">
+                <input id="search-input" name="searchtitle" placeholder="検索したい書籍名を入力" type="text" name="search-key"> <input id="search-buttom" class="fas" type="submit" value="" method="get">
+            </form>
+        </div>
         <div class="content_body">
-            <c:if test="${!empty resultMessage}">
-                <div class="error_msg">${resultMessage}</div>
-            </c:if>
-            <c:if test="${!empty deleted}">
-                        <div class="error_msg">${deleted}</div>
-                    </c:if>
             <div>
                 <div class="booklist">
-                    <c:forEach var="bookInfo" items="${bookList}">
+                    <c:if test="${!empty noHit}">
+                        <div class="error">${noHit}</div>
+                    </c:if>
+                    <c:forEach var="bookInfo" items="${searchBookList}">
                         <div class="books">
                             <form method="post" class="book_thumnail" action="<%=request.getContextPath()%>/details">
-                                <a href="javascript:void(0)" onclick="this.parentNode.submit();"> <c:if test="${bookInfo.thumbnail_url == null}">
+                                <a href="javascript:void(0)" onclick="this.parentNode.submit();"> <c:if test="${empty bookInfo.thumbnail_url}">
                                         <img class="book_noimg" src="resources/img/noImg.png">
-                                    </c:if> <c:if test="${bookInfo.thumbnail_url != null}">
+                                    </c:if> <c:if test="${!empty bookInfo.thumbnail_url}">
                                         <img class="book_noimg" src="${bookInfo.thumbnail_url}">
                                     </c:if>
                                 </a> <input type="hidden" name="bookId" value="${bookInfo.bookId}">
                             </form>
                             <ul>
                                 <li class="book_title">${bookInfo.title}</li>
-                                <li class="book_author">${bookInfo.author}<sapn>(著)</sapn></li>
-                                <li class="book_publisher"><sapn>出版社:</sapn>${bookInfo.publisher}</li>
-                                <li class="book_publish_date"><sapn>出版日:</sapn>${bookInfo.publish_date}</li>
+                                <li class="book_author">${bookInfo.author}</li>
+                                <li class="book_publisher">${bookInfo.publisher}</li>
+                                <li class="book_publish_date">${bookInfo.publish_date}</li>
                             </ul>
                         </div>
                     </c:forEach>
