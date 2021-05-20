@@ -28,7 +28,7 @@
         <h1>書籍検索</h1>
         <div>
             <form action="search">
-                <input id="search-input" name="searchtitle" placeholder="検索したい書籍名を入力" type="text" name="search-key"> <input id="search-buttom" class="fas" type="submit" value="" method="get">
+                <input id="search-input" name="searchTitle" placeholder="検索したい書籍名を入力" type="text" name="search-key"> <input id="search-buttom" class="fas" type="submit" value="" method="get">
             </form>
         </div>
         <div class="content_body">
@@ -37,7 +37,7 @@
                     <c:if test="${!empty noHit}">
                         <div class="error">${noHit}</div>
                     </c:if>
-                    <c:forEach var="bookInfo" items="${searchBookList}">
+                    <c:forEach var="bookInfo" items="${searchBooksList}">
                         <div class="books">
                             <form method="post" class="book_thumnail" action="<%=request.getContextPath()%>/details">
                                 <a href="javascript:void(0)" onclick="this.parentNode.submit();"> <c:if test="${empty bookInfo.thumbnail_url}">

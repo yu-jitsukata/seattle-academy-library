@@ -63,13 +63,13 @@ public class BooksService {
      * 入力された書籍名を検索
      * 結果に紐づく書籍詳細情報を取得する
      *
-     * @param searchtitle 書籍名
+     * @param searchTitle 書籍名
      * @return 書籍情報
      */
-    public List<BookInfo> getMatchBooks(String searchtitle) {
+    public List<BookInfo> getMatchBooks(String searchTitle) {
         List<BookInfo> getSearchBookList = jdbcTemplate.query(
                 "SELECT * FROM books where title like '"
-                        + searchtitle + "' or title like '%" + searchtitle + "%' order by title='" + searchtitle
+                        + searchTitle + "' or title like '%" + searchTitle + "%' order by title='" + searchTitle
                         + "' DESC",
                 new BookInfoRowMapper());
         return getSearchBookList;

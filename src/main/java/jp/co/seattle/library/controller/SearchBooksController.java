@@ -35,19 +35,19 @@ public class SearchBooksController {
      */
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String login(
-            @RequestParam("searchtitle") String searchtitle,
+            @RequestParam("searchTitle") String searchTitle,
             Model model) {
         
-        booksService.getMatchBooks(searchtitle);
 
-        if (booksService.getMatchBooks(searchtitle).isEmpty()) {
+
+        if (booksService.getMatchBooks(searchTitle).isEmpty()) {
             model.addAttribute("noHit", "該当する書籍が見つかりませんでした。もう一度入力してください。");
             return "searchBook";
         }
 
 
         // 検索してヒットした本の情報を取得して画面側に渡す
-        model.addAttribute("searchBookList", booksService.getMatchBooks(searchtitle));
+        model.addAttribute("searchBooksList", booksService.getMatchBooks(searchTitle));
         return "searchBook";
 
 }
