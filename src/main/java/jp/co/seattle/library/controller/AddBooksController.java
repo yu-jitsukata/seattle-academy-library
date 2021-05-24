@@ -132,6 +132,9 @@ public class AddBooksController {
 
         model.addAttribute("resultMessage", "登録完了");
 
+        // リクエストの来ている書籍だった場合はrequestTBLから削除
+        booksService.deleteRequestedBook(bookInfo);
+
         // TODO 登録した書籍の詳細情報を表示するように実装
         
         model.addAttribute("bookDetailsInfo", booksService.getBookInfo(booksService.getBookId()));
