@@ -95,11 +95,12 @@ input {
 
 .booklist {
 	margin-top: 15px;
+	text-align: center;
 }
 
 .books {
 	display: inline-block;
-	margin-right: 10px;
+	margin:20px 50px;
 	line-height: 1.5;
 }
 
@@ -131,22 +132,37 @@ img.book_img {
 
 .book_title {
 	font-size: 16px;
-	text-align: center;
+	text-align: top;
+	overflow: hidden;
+	white-space:nowrap;
+	width: 200px;
+	text-overflow: ellipsis;
+	overflow-wrap: break-word;
 }
 
 .book_author {
 	font-size: 13px;
-	text-align: center;
+	text-align: top;
 	margin-bottom: 5px;
+	overflow: hidden;
+	white-space:nowrap;
+	width: 200px;
+	text-overflow: ellipsis;
+	overflow-wrap: break-word;
 }
 
 .book_publisher, .book_publish_date {
 	font-size: 12px;
+	overflow: hidden;
+	white-space:nowrap;
+	width: 200px;
+	text-overflow: ellipsis;
+	overflow-wrap: break-word;
 }
 
-a.btn_add_book, a.btn_bulk_book, button.btn_addBook, button.btn_editBook,
-	button.btn_deleteBook, button.btn_rentBook, button.btn_returnBook,
-	button.btn_bulkRegist, button.btn_updateBook {
+a.btn_add_book, a.btn_bulk_book, a.btn_search_book, a.btn_request_book,
+	button.btn_addBook, button.btn_editBook, button.btn_deleteBook, button.btn_rentBook,
+	button.btn_returnBook, button.btn_bulkRegist, button.btn_updateBook, button.btn_requestBook {
 	display: inline-block;
 	font-size: 16px;
 	font-weight: bold;
@@ -159,6 +175,8 @@ a.btn_add_book, a.btn_bulk_book, button.btn_addBook, button.btn_editBook,
 	box-shadow: inset 0 2px 0 rgba(255, 255, 255, .2), 0 2px 2px
 		rgba(0, 0, 0, .2);
 	color: #fff;
+	border-radius: 100vh;
+	
 }
 
 a.btn_bulk_book {
@@ -183,6 +201,21 @@ button.btn_returnBook {
 
 button.btn_bulkRegist {
 	background-color: #FF9966;
+}
+
+a.btn_search_book {
+	background-color: #42dce7;
+}
+
+a.btn_request_book {
+	background-color: #c983e7;
+}
+
+button.btn_requestBook {
+	background-color: #69e7e6;
+	text-align: center;
+	margin-top:10px;
+	padding:10px;
 }
 
 a:hover, button:hover {
@@ -239,7 +272,7 @@ a:hover, button:hover {
 }
 
 button.btn_addBook, button.btn_editBook, button.btn_deleteBook, button.btn_rentBook,
-	button.btn_returnBook, button.btn_bulkRegist, button.btn_updateBook {
+	button.btn_returnBook, button.btn_bulkRegist, button.btn_updateBook, buttun.btn_requestBook {
 	border-radius: 30px;
 	width: 120px;
 	margin-top: 20px;
@@ -249,13 +282,13 @@ button.btn_addBook, button.btn_editBook, button.btn_deleteBook, button.btn_rentB
 
 button.btn_addBook:focus, button.btn_editBook:focus, button.btn_deleteBook:focus,
 	button.btn_rentBook:focus, button.btn_returnBook:focus, button.btn_bulkRegist:focus,
-	button.btn_updateBook:focus {
+	button.btn_updateBook:focus, buttun.btn_requestBook:focus {
 	outline: none;
 }
 
 button.btn_addBook:hover, button.btn_editBook:hover, button.btn_deleteBook:hover,
 	button.btn_rentBook:hover, button.btn_returnBook:hover, button.btn_bulkRegist:hover,
-	button.btn_updateBook:hover {
+	button.btn_updateBook:hover, buttun.btn_requestBook:hover {
 	cursor: pointer;
 }
 
@@ -316,6 +349,60 @@ hr.border_add {
 .bulk_form .caution p {
 	color: #fa8072;
 }
+
 .bulk_form .registComplete.errors {
-	color:red;
+	color: red;
 }
+
+.request {
+	 text-align: center;
+	 color:#6d7063;
+}
+
+.request h2 {
+	font-size:20px;	
+	padding-bottom:10px;
+}
+
+.requestlist {
+	background-color:#e2ffb1;
+	width: 800px;
+	padding:30px;
+	margin: 30px auto;
+	border-radius: 10vh;
+}
+
+.requestedbooks {
+	text-align: center;
+	font-size:25px;
+	color: #20a527;
+	padding:10px;
+}
+.requestedcounts {
+	text-align: center;
+	font-size:15px;
+}
+
+.cp_iptxt {
+	position: relative;
+	width: 40%;
+	margin: 40px 3%;
+	margin: 10px auto;
+}
+.cp_iptxt input[type='text'] {
+	font: 15px/24px sans-serif;
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0.3em;
+	transition: 0.3s;
+	letter-spacing: 1px;
+	color: #aaaaaa;
+	border: 1px solid #1b2538;
+	border-radius: 4px;
+}
+.ef input[type='text']:focus {
+	border: 1px solid #ada4da;
+	outline: none;
+	box-shadow: 0 0 5px 1px rgba(240,129,19,0.5);
+}
+

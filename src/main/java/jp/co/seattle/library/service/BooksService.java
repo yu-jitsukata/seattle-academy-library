@@ -1,15 +1,19 @@
 package jp.co.seattle.library.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import jp.co.seattle.library.dto.BookDetailsInfo;
 import jp.co.seattle.library.dto.BookInfo;
+import jp.co.seattle.library.dto.RequestBookInfo;
 import jp.co.seattle.library.rowMapper.BookDetailsInfoRowMapper;
 import jp.co.seattle.library.rowMapper.BookInfoRowMapper;
 
@@ -125,6 +129,19 @@ public class BooksService {
         jdbcTemplate.update(sql);
     }
 
+    /**
+     * リクエストされた書籍が追加された際に、
+     * リクエストテーブルから同じタイトルを削除する
+     *
+     * @param bookId 書籍ID
+     */
+
+    public void deleteRequestedBook(BookDetailsInfo bookInfo) {
+
+        String sql = "DELETE FROM request where requestTitle ='" + bookInfo.getTitle() + "'";
+        jdbcTemplate.update(sql);
+    }
+
 
     /**
      * 書籍を更新する
@@ -140,6 +157,8 @@ public class BooksService {
                 + "publish_date='" + bookInfo.getPublishDate() + "',"
                 + "isbn='" + bookInfo.getIsbn() + "',"
                 + "description='" + bookInfo.getDescription() + "',"
+                + "thumbnail_name='" + bookInfo.getThumbnailName() + "',"
+                + "thumbnail_url='" + bookInfo.getThumbnailUrl() + "',"
                 + "upd_date=" + "sysdate()"
                 + "WHERE id="
                 + bookInfo.getBookId() + ";";
@@ -190,5 +209,42 @@ public class BooksService {
     public void returnBook(int bookId) {
         String sql = "DELETE FROM lending where BOOK_ID =" + bookId;
         jdbcTemplate.update(sql);
+    }
+
+    /**
+     * 書籍のリクエストをrequestTBLに追加する
+     *
+     * @param requestTitle リクエストタイトル
+     */
+
+    public void requestBook(String requestTitle) {
+        String sql = "INSERT INTO request(requestTitle) values('" + requestTitle + "');";
+        jdbcTemplate.update(sql);
+    }
+
+    /**
+     * 書籍のリクエストとそのリクエスト回数を多い順に5つ取得する
+     * 
+     * @return 
+     */
+
+    public List<RequestBookInfo> getRequestList() {
+
+        String sql = "SELECT requestTitle, count(requestTitle) FROM request group by requestTitle order by count(requestTitle) DESC limit 5;";
+
+        try {
+            List<Map<String, Object>> values = jdbcTemplate.queryForList(sql);
+            List<RequestBookInfo> requestBookInfoList = new ArrayList<RequestBookInfo>();
+            for (Map<String, Object> value : values) {
+                RequestBookInfo requestBookInfo = new RequestBookInfo();
+                requestBookInfo.setRequestTitle((String) value.get("requestTitle"));
+                int counts = Integer.parseInt(value.get("count(requestTitle)").toString());
+                requestBookInfo.setCounts(counts);
+                requestBookInfoList.add(requestBookInfo);
+            }
+            return requestBookInfoList;
+    } catch (IncorrectResultSizeDataAccessException r) {
+        return null;
+    }
     }
 }
