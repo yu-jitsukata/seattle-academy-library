@@ -1,6 +1,8 @@
 package jp.co.seattle.library.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +16,6 @@ import jp.co.seattle.library.dto.BookInfo;
 import jp.co.seattle.library.dto.RequestBookInfo;
 import jp.co.seattle.library.rowMapper.BookDetailsInfoRowMapper;
 import jp.co.seattle.library.rowMapper.BookInfoRowMapper;
-import jp.co.seattle.library.rowMapper.RequestBookInfoRowMapper;
 
 /**
  * 書籍サービス
@@ -156,6 +157,8 @@ public class BooksService {
                 + "publish_date='" + bookInfo.getPublishDate() + "',"
                 + "isbn='" + bookInfo.getIsbn() + "',"
                 + "description='" + bookInfo.getDescription() + "',"
+                + "thumbnail_name='" + bookInfo.getThumbnailName() + "',"
+                + "thumbnail_url='" + bookInfo.getThumbnailUrl() + "',"
                 + "upd_date=" + "sysdate()"
                 + "WHERE id="
                 + bookInfo.getBookId() + ";";
@@ -225,25 +228,32 @@ public class BooksService {
      * @param requestTitle リクエストタイトル
      */
 
-    public void requestCounts(String requestTitle) {
-        String sql = "UPDATE request SET counts = counts +1 where requestTitle= '" + requestTitle + "';";
-        jdbcTemplate.update(sql);
-    }
+    //public void requestCounts(String requestTitle) {
+    //    String sql = "UPDATE request SET counts = counts +1 where requestTitle= '" + requestTitle + "';";
+    //    jdbcTemplate.update(sql);
+    //}
 
     /**
-     * 書籍のリクエストをリクエストの多い順に5つ取得する
+     * 書籍のリクエストとそのリクエスト回数を多い順に5つ取得する
      * 
      * @return 
      */
 
     public List<RequestBookInfo> getRequestList() {
 
-        String sql = "SELECT requestTitle, counts FROM request order by counts DESC limit 5;";
+        String sql = "SELECT requestTitle, count(requestTitle) FROM request group by requestTitle order by count(requestTitle) DESC limit 5;";
 
         try {
-            List<RequestBookInfo> RequestedBookInfo = jdbcTemplate.query(sql, new RequestBookInfoRowMapper());
-            return (List<RequestBookInfo>) RequestedBookInfo;
-
+            List<Map<String, Object>> values = jdbcTemplate.queryForList(sql);
+            List<RequestBookInfo> requestBookInfoList = new ArrayList<RequestBookInfo>();
+            for (Map<String, Object> value : values) {
+                RequestBookInfo requestBookInfo = new RequestBookInfo(sql, 0);
+                requestBookInfo.setRequestTitle((String) value.get("requestTitle"));
+                int counts = Integer.parseInt(value.get("count(requestTitle)").toString());
+                requestBookInfo.setCounts(counts);
+                requestBookInfoList.add(requestBookInfo);
+            }
+            return requestBookInfoList;
     } catch (IncorrectResultSizeDataAccessException r) {
         return null;
     }

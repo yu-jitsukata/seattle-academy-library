@@ -65,8 +65,8 @@
                 <c:if test="${!empty requestComplete}">
                     <div class="error">${requestComplete}</div>
                 </c:if>
-                <c:if test="${!empty request_error}">
-                    <div class="error">${request_error}</div>
+                <c:if test="${!empty requestError}">
+                    <div class="error">${requestError}</div>
                 </c:if>
             </div>
         </div>

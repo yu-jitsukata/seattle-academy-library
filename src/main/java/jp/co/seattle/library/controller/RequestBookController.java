@@ -3,7 +3,6 @@ package jp.co.seattle.library.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,10 +35,8 @@ public class RequestBookController {
             return "requestBook";
         } else {
             model.addAttribute("requestbookList", booksService.getRequestList());
-
             return "requestBook";
         }
-
     }
 
     /**
@@ -56,17 +53,12 @@ public class RequestBookController {
         // もし何も入力されず送信ボタンが押された場合の処理
         if (requestTitle.isEmpty()) {
             model.addAttribute("requestbookList", booksService.getRequestList());
-            model.addAttribute("request_error", "書籍名を入力してください。");
+            model.addAttribute("requestError", "書籍名を入力してください。");
             return "requestBook";
         }
 
-        // リクエスト済だった場合はリクエスト回数だけ増やす処理を行う
-        try {
-            booksService.requestBook(requestTitle);
 
-        } catch (DuplicateKeyException d) {
-            booksService.requestCounts(requestTitle);
-        }
+            booksService.requestBook(requestTitle);
 
         // リクエスト一覧を出力
         // リクエスト送信完了の旨を出力
