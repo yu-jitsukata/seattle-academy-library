@@ -223,17 +223,6 @@ public class BooksService {
     }
 
     /**
-     * すでにリクエストされている本の冊数カウントを１増やす
-     *
-     * @param requestTitle リクエストタイトル
-     */
-
-    //public void requestCounts(String requestTitle) {
-    //    String sql = "UPDATE request SET counts = counts +1 where requestTitle= '" + requestTitle + "';";
-    //    jdbcTemplate.update(sql);
-    //}
-
-    /**
      * 書籍のリクエストとそのリクエスト回数を多い順に5つ取得する
      * 
      * @return 
@@ -247,7 +236,7 @@ public class BooksService {
             List<Map<String, Object>> values = jdbcTemplate.queryForList(sql);
             List<RequestBookInfo> requestBookInfoList = new ArrayList<RequestBookInfo>();
             for (Map<String, Object> value : values) {
-                RequestBookInfo requestBookInfo = new RequestBookInfo(sql, 0);
+                RequestBookInfo requestBookInfo = new RequestBookInfo();
                 requestBookInfo.setRequestTitle((String) value.get("requestTitle"));
                 int counts = Integer.parseInt(value.get("count(requestTitle)").toString());
                 requestBookInfo.setCounts(counts);
