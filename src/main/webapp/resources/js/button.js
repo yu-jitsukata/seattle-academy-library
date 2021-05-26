@@ -18,10 +18,10 @@ $('.lending').ready(function() {
 	
     // 貸し出し中だった場合
     if (lendingstatus == '貸し出し中'){ 
-        // ボタンを有効化
+        // ボタンを無効化
         $('#delete').prop('disabled', true);
     } else { 
-        // ボタンを無効化
+        // ボタンを有効化
         $('#delete').prop('disabled', false); 
     }
 });
